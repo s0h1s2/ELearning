@@ -19,6 +19,7 @@ const formSchema = z.object({
 
 const CreatePage = () => {
   const router = useRouter()
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -57,9 +58,7 @@ const CreatePage = () => {
               </FormItem>
             )} />
             <div className="flex items-center gap-x-2">
-              <Link href="/">
-                <Button type="button" variant="ghost">Cancel</Button>
-              </Link>
+              <Button type="button" onClick={() => router.back()} variant="ghost">Cancel</Button>
               <Button type="submit" disabled={!isValid || isSubmitting}>Continue</Button>
             </div>
           </form>
