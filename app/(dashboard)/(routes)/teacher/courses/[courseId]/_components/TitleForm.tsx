@@ -1,13 +1,31 @@
 import React from 'react'
+import z from "zod"
+import axios from "axios"
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+
 interface Props {
   initialData: {
     title: string
   },
   courseId: string
 }
+const formSchema = z.object({
+  title: z.string().min(1)
+})
 const TitleForm = ({ initialData, courseId }: Props) => {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: initialData
+  })
+  const { isSubmitting, isValid } = form.formState
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    console.log(values)
+  }
   return (
-    <div>Title Form</div>
+    <div className="mt-6 border bg-slate-100 rounded-md p-4">
+      Title Form
+    </div>
   )
 }
 

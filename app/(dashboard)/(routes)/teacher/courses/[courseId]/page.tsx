@@ -1,4 +1,4 @@
-import IconBadge from '@/app/(dashboard)/_components/IconBadge';
+import IconBadge from '@/components/IconBadge';
 import { db } from '@/lib/db'
 import { auth } from '@clerk/nextjs'
 import { LayoutDashboard } from 'lucide-react';
