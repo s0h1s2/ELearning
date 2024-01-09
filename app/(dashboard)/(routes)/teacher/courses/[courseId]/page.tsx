@@ -49,8 +49,9 @@ const CourseId = async ({ params }: { params: { courseId: string } }) => {
             Customize your course
           </h2>
         </div>
-        <TitleForm initialData={course} courseId={course.id} />
       </div>
+
+      <TitleForm initialData={course} courseId={course.id} />
     </div>
   )
 }
