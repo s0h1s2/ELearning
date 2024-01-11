@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { Pencil } from 'lucide-react'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
@@ -18,13 +19,13 @@ interface Props {
   courseId: string
 }
 const formSchema = z.object({
-  description: z.string().min(1)
+  imageUrl: z.string().min(1)
 })
-const DescriptionForm = ({ initialData, courseId }: Props) => {
+const ImageForm = ({ initialData, courseId }: Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      description: initialData?.description || ""
+      imageUrl: initialData.thumbnail || ""
     }
   })
   const router = useRouter()
@@ -32,7 +33,6 @@ const DescriptionForm = ({ initialData, courseId }: Props) => {
   const toggleEdit = () => { setIsEdit((current) => !current) }
   const { isSubmitting, isValid } = form.formState
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values)
     try {
       await axios.patch(`/api/courses/${courseId}`, values)
       toast.success("Course updated")
@@ -45,14 +45,14 @@ const DescriptionForm = ({ initialData, courseId }: Props) => {
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-center">
-        Course description
+        Course image
         <Button variant="ghost" onClick={toggleEdit}>
           {isEdit ? (
             <>Cancel</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit Description
+              Edit Image
             </>
           )}
         </Button>
@@ -61,7 +61,7 @@ const DescriptionForm = ({ initialData, courseId }: Props) => {
         <>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
-              <FormField control={form.control} name="description" render={({ field }) => (
+              <FormField control={form.control} name="imageUrl" render={({ field }) => (
                 <FormItem>
                   <FormControl>
                     <Textarea disabled={isSubmitting} placeholder="e.g. 'This course is about'" {...field} />
@@ -87,4 +87,4 @@ const DescriptionForm = ({ initialData, courseId }: Props) => {
   )
 }
 
-export default DescriptionForm 
+export default ImageForm
