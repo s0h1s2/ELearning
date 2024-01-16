@@ -4,7 +4,7 @@ import z from "zod"
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
-import { Pencil } from 'lucide-react'
+import { ImageIcon, Pencil, PlusCircle } from 'lucide-react'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import toast from 'react-hot-toast'
@@ -13,7 +13,7 @@ import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { Textarea } from '@/components/ui/textarea'
 import { Course } from '@prisma/client'
-
+import Image from 'next/image'
 interface Props {
   initialData: Course,
   courseId: string
@@ -51,12 +51,26 @@ const ImageForm = ({ initialData, courseId }: Props) => {
             <>Cancel</>
           ) : (
             <>
-              <Pencil className="h-4 w-4 mr-2" />
-              Edit Image
+              {!initialData.thumbnail ? (<>
+                <PlusCircle className="h-4 w-4 mr-2" />
+                Add an image
+              </>) : (<>
+                <Pencil className="h-4 w-4 mr-2" />
+                Edit Image
+              </>)}
             </>
           )}
         </Button>
       </div>
+      {!isEdit && !initialData.thumbnail ? (
+        <div className="flex items-center justify-center h-60 bg-slate-200 rounded-md">
+          <ImageIcon className="h-10 w-10 text-slate-500" />
+        </div>
+      ) : (
+        <div className="relative aspect-video mt-2">
+          <Image alt="Upload" fill src={initialData.thumbnail} className="object-cover rounded-md" />
+        </div>
+      )}
       {isEdit ? (
         <>
           <Form {...form}>
