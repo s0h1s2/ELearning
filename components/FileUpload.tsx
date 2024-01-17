@@ -1,4 +1,6 @@
-"use client"
+'use client'
+import React from 'react'
+import toast from "react-hot-toast"
 
 import { ourFileRouter } from "@/app/api/uploadthing/core"
 import { UploadDropzone } from "@/lib/uploadthing"
@@ -7,8 +9,6 @@ interface Props {
   endpoint: keyof typeof ourFileRouter
 
 }
-import React from 'react'
-import toast from "react-hot-toast"
 
 const FileUpload = ({ onChange, endpoint }: Props) => {
   return (

@@ -8,6 +8,7 @@ const handleAuth = () => {
   if (!userId) {
     throw new Error("Unauthorized user")
   }
+  return userId
 }
 export const ourFileRouter = {
   courseImage: f({ image: { maxFileSize: "1MB", maxFileCount: 1 } }).middleware(() => handleAuth()).onUploadComplete(() => { }),
