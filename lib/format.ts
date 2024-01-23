@@ -3,6 +3,5 @@ export const formatPrice = (price: number) => {
     style: "currency",
     currency: "USD"
   }).format(price)
-
 }
 
