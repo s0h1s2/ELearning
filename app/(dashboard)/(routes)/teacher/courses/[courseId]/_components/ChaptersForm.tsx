@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { Chapter, Course } from '@prisma/client'
 import { Input } from '@/components/ui/input'
+import ChapterList from './ChapterList'
 
 interface Props {
   initialData: Course & { chapters: Chapter[] },
@@ -84,7 +85,7 @@ const ChaptersForm = ({ initialData, courseId }: Props) => {
             </>
           ) : (
             <>
-              Yes Chapters.
+              <ChapterList items={initialData.chapters} onReorder={() => { }} onEdit={() => { }} />
             </>
           )}
         </div>
