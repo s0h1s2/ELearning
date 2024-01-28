@@ -4,7 +4,7 @@ import z from "zod"
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
-import { PlusCircle } from 'lucide-react'
+import { Loader2, PlusCircle } from 'lucide-react'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import toast from 'react-hot-toast'
 import axios from 'axios'
@@ -44,10 +44,28 @@ const ChaptersForm = ({ initialData, courseId }: Props) => {
       toast.error("Something went wrong.")
     }
   }
+  const onReorder = async (updateState: { id: string, position: number }[]) => {
+    try {
+      setIsUpading(true)
+      await axios.put(`/api/courses/${courseId}/chapters/reorder`, { list: updateState })
+      toast.success("Chapters reordered")
+
+    } catch (error) {
+      toast.error("Something went wrong.")
+    }
+    finally {
+      setIsUpading(false)
+    }
+  }
   return (
-    <div className="mt-6 border bg-slate-100 rounded-md p-4">
+    <div className="relative mt-6 border bg-slate-100 rounded-md p-4">
+      {isUpading && (
+        <div className="absolute h-full w-full bg-slate-500/20 top-0 left-0 rounded-md flex items-center justify-center">
+          <Loader2 className="animate-spin h-6 w-6 text-sky-700" />
+        </div>
+      )}
       <div className="font-medium flex items-center justify-center">
-        Course description
+        Course chapters
         <Button variant="ghost" onClick={toggleCreating}>
           {isCreating ? (
             <>Cancel</>
@@ -85,7 +103,7 @@ const ChaptersForm = ({ initialData, courseId }: Props) => {
             </>
           ) : (
             <>
-              <ChapterList items={initialData.chapters} onReorder={() => { }} onEdit={() => { }} />
+              <ChapterList items={initialData.chapters} onReorder={onReorder} onEdit={() => { }} />
             </>
           )}
         </div>

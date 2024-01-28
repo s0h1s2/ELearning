@@ -1,19 +1,37 @@
 "use client";
 import { Chapter } from '@prisma/client'
 import React, { useEffect, useState } from 'react'
-import { DragDropContext, Draggable, DraggableProvided, DraggableRubric, DraggableStateSnapshot, Droppable } from '@hello-pangea/dnd';
+import { DragDropContext, Draggable, DraggableProvided, DraggableRubric, DraggableStateSnapshot, DropResult, Droppable } from '@hello-pangea/dnd';
 import { cn } from '@/lib/utils';
 import { Grip, Pencil } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 interface Props {
   items: Chapter[];
-  onReorder: (updatedState: { id: string, position: number }) => void;
+  onReorder: (updatedState: { id: string, position: number }[]) => void;
   onEdit: (id: string) => void;
 
 }
 const ChapterList = ({ items, onReorder, onEdit }: Props) => {
   const [isMounted, setIsMounted] = useState(false)
   const [chapters, setChapters] = useState(items)
+  const onDragEnd = (result: DropResult) => {
+    if (!result.destination) {
+      return;
+    }
+    const items = Array.from(chapters);
+    const [reorderedItems] = items.splice(result.source.index, 1)
+    items.splice(result.destination.index, 0, reorderedItems)
+    const startIndex = Math.min(result.source.index, result.destination.index)
+    const endIndex = Math.max(result.source.index, result.destination.index)
+    const updatedChapters = items.slice(startIndex, endIndex + 1)
+    setChapters(items)
+    const bulkUpdatedData = updatedChapters.map((chapter) => ({
+      id: chapter.id,
+      position: items.findIndex((item) => chapter.id === item.id),
+
+    }))
+    onReorder(bulkUpdatedData)
+  }
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -24,7 +42,7 @@ const ChapterList = ({ items, onReorder, onEdit }: Props) => {
     return null
   }
   return (
-    <DragDropContext onDragEnd={() => { }}>
+    <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="chapters">
         {(provided) => (
           <div {...provided.droppableProps} ref={provided.innerRef}>
