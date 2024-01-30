@@ -13,7 +13,6 @@ import { cn } from '@/lib/utils'
 import { Chapter, Course } from '@prisma/client'
 import { Input } from '@/components/ui/input'
 import ChapterList from './ChapterList'
-
 interface Props {
   initialData: Course & { chapters: Chapter[] },
   courseId: string
@@ -33,7 +32,6 @@ const ChaptersForm = ({ initialData, courseId }: Props) => {
   })
   const toggleCreating = () => { setIsCreating((current) => !current) }
   const { isSubmitting, isValid } = form.formState
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.post(`/api/courses/${courseId}/chapters`, values)
@@ -56,6 +54,9 @@ const ChaptersForm = ({ initialData, courseId }: Props) => {
     finally {
       setIsUpading(false)
     }
+  }
+  const onEdit = (id: string) => {
+    router.push(`/teacher/courses/${initialData.id}/chapters/${id}`)
   }
   return (
     <div className="relative mt-6 border bg-slate-100 rounded-md p-4">
@@ -103,7 +104,7 @@ const ChaptersForm = ({ initialData, courseId }: Props) => {
             </>
           ) : (
             <>
-              <ChapterList items={initialData.chapters} onReorder={onReorder} onEdit={() => { }} />
+              <ChapterList items={initialData.chapters} onReorder={onReorder} onEdit={onEdit} />
             </>
           )}
         </div>
