@@ -5,6 +5,7 @@ import { ArrowLeft, LayoutDashboard } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import React from 'react'
+import ChapterTitleForm from './_components/TitleForm'
 
 const ChapterId = async ({ params }: { params: { courseId: string, chapterId: string } }) => {
   const { userId } = auth()
@@ -50,18 +51,20 @@ const ChapterId = async ({ params }: { params: { courseId: string, chapterId: st
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
-          <div className="space-y-4">
-            <div>
-              <div className="flex items-center gap-x-2">
-                <IconBadge icon={LayoutDashboard} />
-              </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
+        <div className="space-y-4">
+          <div>
+            <div className="flex items-center gap-x-2">
+              <IconBadge icon={LayoutDashboard} />
+              <h2 className="text-xl">
+                Customize your chapter
+              </h2>
             </div>
           </div>
+          <ChapterTitleForm courseId={params.courseId} chapterId={params.chapterId} initialData={chapter} />
         </div>
       </div>
-      <p>{params.courseId}</p>
-      <p>{params.chapterId}</p>
     </div>
 
   )
