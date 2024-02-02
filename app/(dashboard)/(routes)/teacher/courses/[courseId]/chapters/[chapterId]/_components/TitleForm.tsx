@@ -43,7 +43,7 @@ const ChapterTitleForm = ({ initialData, courseId, chapterId }: Props) => {
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-center">
-        Chapter title
+        Chapter Title
         <Button variant="ghost" onClick={toggleEdit}>
           {isEdit ? (
             <>Cancel</>
@@ -84,5 +84,5 @@ const ChapterTitleForm = ({ initialData, courseId, chapterId }: Props) => {
   )
 }
 
-export default ChapterTitleForm 
+export default ChapterTitleForm
 

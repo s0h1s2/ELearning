@@ -5,14 +5,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { Pencil } from 'lucide-react'
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { Chapter } from '@prisma/client'
-import Editor from '@/components/Editor'
-import Preview from '@/components/Preview'
+import { Checkbox } from '@/components/ui/checkbox'
 
 interface Props {
   initialData: Chapter;
@@ -21,13 +20,13 @@ interface Props {
 
 }
 const formSchema = z.object({
-  description: z.string().min(1)
+  isFree: z.boolean().default(false),
 })
 const DescriptionForm = ({ initialData, courseId, chapterId }: Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      description: initialData?.description || ""
+      isFree: !!initialData?.isFree
     }
   })
   const router = useRouter()
@@ -47,14 +46,14 @@ const DescriptionForm = ({ initialData, courseId, chapterId }: Props) => {
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-center">
-        Chapter Description
+        Chapter Access
         <Button variant="ghost" onClick={toggleEdit}>
           {isEdit ? (
             <>Cancel</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit Description
+              Edit Access
             </>
           )}
         </Button>
@@ -63,11 +62,16 @@ const DescriptionForm = ({ initialData, courseId, chapterId }: Props) => {
         <>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
-              <FormField control={form.control} name="description" render={({ field }) => (
-                <FormItem>
+              <FormField control={form.control} name="isFree" render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                   <FormControl>
-                    <Editor {...field} />
+                    <Checkbox onCheckedChange={field.onChange} />
                   </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormDescription>
+                      Check this box if you want make this chapter free.
+                    </FormDescription>
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}
@@ -79,19 +83,20 @@ const DescriptionForm = ({ initialData, courseId, chapterId }: Props) => {
           </Form>
         </>
       ) : (
-        <p className={cn("text-sm mt-2 ", !initialData.description && "text-slate-500 italic")}>
-          {initialData.description ? (
-            <Preview value={initialData?.description} />
+        <div className={cn("text-sm mt-2 ", "text-slate-500 italic")}>
+          {initialData.isFree ? (
+            <p>This chapter is free for preview.</p>
           ) : (
-            <div>
-              No Description
-            </div>
+            <p>This chapter is not free.</p>
           )}
-        </p>
+        </div>
       )
       }
     </div >
   )
 }
 
-export default DescriptionForm 
+export default DescriptionForm
+
+
+
