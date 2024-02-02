@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import React from 'react'
 import ChapterTitleForm from './_components/TitleForm'
+import ChapterDescriptionForm from './_components/ChapterDescriptionForm'
 
 const ChapterId = async ({ params }: { params: { courseId: string, chapterId: string } }) => {
   const { userId } = auth()
@@ -63,6 +64,7 @@ const ChapterId = async ({ params }: { params: { courseId: string, chapterId: st
             </div>
           </div>
           <ChapterTitleForm courseId={params.courseId} chapterId={params.chapterId} initialData={chapter} />
+          <ChapterDescriptionForm courseId={params.courseId} chapterId={params.chapterId} initialData={chapter} />
         </div>
       </div>
     </div>
