@@ -47,7 +47,6 @@ const ChaptersForm = ({ initialData, courseId }: Props) => {
       setIsUpading(true)
       await axios.put(`/api/courses/${courseId}/chapters/reorder`, { list: updateState })
       toast.success("Chapters reordered")
-
     } catch (error) {
       toast.error("Something went wrong.")
     }

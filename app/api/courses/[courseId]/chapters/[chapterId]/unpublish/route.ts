@@ -51,7 +51,22 @@ export async function PATCH(
         isPublished: false,
       }
     });
-
+    const publishedChapters = await db.chapter.count({
+      where: {
+        courseId: params.chapterId
+      }
+    })
+    if (publishedChapters == 0) {
+      // Unpublish course.
+      await db.course.update({
+        where: {
+          id: params.courseId
+        },
+        data: {
+          isPublished: false
+        }
+      })
+    }
     return NextResponse.json(publishedChapter);
   } catch (error) {
     console.log("[CHAPTER_PUBLISH]", error);
