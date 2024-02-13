@@ -23,14 +23,13 @@ const SearchPage = async ({ searchParams }: Props) => {
     }
   })
   const courses = await getCourses({ userId: userId, ...searchParams })
-
   return (
     <>
       {/* For small devices only*/}
       <div className="px-6 pt-6 md:hidden md:mb-0 block">
         <SearchInput />
       </div>
-      <div className="p-6">
+      <div className="p-6 space-y-4">
         <Categories categories={categories} />
         <CoursesList items={courses} />
       </div>
