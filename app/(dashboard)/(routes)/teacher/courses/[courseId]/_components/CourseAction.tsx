@@ -34,19 +34,20 @@ const CourseActions = ({ courseId, isPublished, disabled }: Props) => {
       setIsLoading(true);
       if (!isPublished) {
         await axios.patch(`/api/courses/${courseId}/publish`)
-
+        router.refresh()
         toast.success("Course Published successfully");
       } else {
         await axios.patch(`/api/courses/${courseId}/unpublish`)
+        router.refresh()
         toast.success("Course Unpublished successfully");
       }
       router.push(`/teacher/courses/${courseId}`)
     } catch (error) {
       toast.error("Something went wrong")
     } finally {
-      router.refresh()
       setIsLoading(false);
     }
+
   }
 
   return (

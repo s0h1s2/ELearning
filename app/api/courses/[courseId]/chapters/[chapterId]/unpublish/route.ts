@@ -53,10 +53,13 @@ export async function PATCH(
     });
     const publishedChapters = await db.chapter.count({
       where: {
-        courseId: params.chapterId
-      }
+        courseId: params.courseId,
+        isPublished: true,
+
+      },
+
     })
-    if (publishedChapters == 0) {
+    if (publishedChapters <= 0) {
       // Unpublish course.
       await db.course.update({
         where: {
