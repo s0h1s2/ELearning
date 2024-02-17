@@ -13,6 +13,7 @@ const CourseSidebar = async ({ course, progressCount }: Props) => {
   if (!userId) {
     return redirect("/")
   }
+
   const purchase = await db.purchase.findUnique({
     where: {
       userId_courseId: {
@@ -24,7 +25,7 @@ const CourseSidebar = async ({ course, progressCount }: Props) => {
   return (
     <div className="h-full border-r flex flex-col overflow-y-auto shadow-sm">
       <div className="p-8 flex-col border-b">
-        <h1 className="font-semibold">{course.course.title}</h1>
+        <h1 className="font-semibold">{course.title}</h1>
       </div>
       <div className="flex flex-col w-full">
         {course.chapters.map((chapter) => {
