@@ -78,7 +78,7 @@ export const getChapter = async ({ userId, courseId, chapterId }: Params) => {
       chapter: chapter,
       course: course,
       muxData: muxData,
-      attachments: [],
+      attachments: attachments,
       nextChapter: nextChapter,
       userProgress: userProgress,
       purchase: purchase,
