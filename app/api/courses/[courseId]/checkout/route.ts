@@ -56,6 +56,7 @@ export async function POST(request: Request, { params }: { params: { courseId: s
         data: {
           stripeCustomerId: newCustomer.id,
           userId: user.id,
+          
         }
       })
     }
