@@ -1,6 +1,5 @@
 import { db } from '@/lib/db'
 import { redirect } from 'next/navigation'
-import React from 'react'
 
 const CourseIdView = async ({ params }: { params: { courseId: string } }) => {
   const course = await db.course.findUnique({
