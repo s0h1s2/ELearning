@@ -1,5 +1,4 @@
 import { db } from '@/lib/db'
-import { log } from 'console'
 
 export const getProgress = async (courseId: string, userId: string): Promise<number> => {
   try {
