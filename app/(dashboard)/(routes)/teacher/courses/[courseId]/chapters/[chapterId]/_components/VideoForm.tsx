@@ -75,13 +75,13 @@ const VideoForm = ({ initialData, courseId, chapterId }: Props) => {
         </div>
       ) : (
         <div className="text-xs text-muted-foreground mt-4">
-          Upload this chapter's video.
+          Upload this chapter&apos;s video.
         </div>
       )
       }
       {!initialData.videoUrl && !isEdit && (
         <div className="text-xs text-muted-foreground mt-2">
-          Videos can take time to proccess refresh the page if the video doesn't appear.
+          Videos can take time to proccess refresh the page if the video doesn&apos;t appear.
         </div>
       )}
     </div >
