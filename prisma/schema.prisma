@@ -6,16 +6,16 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
+  provider     = "cockroachdb"
   url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
 model Course {
   id          String       @id @default(uuid())
-  title       String       @db.Text
-  description String?      @db.Text
-  thumbnail   String?      @db.Text
+  title       String       @db.String()
+  description String?      @db.String()
+  thumbnail   String?      @db.String()
   price       Float?
   isPublished Boolean      @default(false)
   attachments Attachment[]
@@ -39,7 +39,7 @@ model Category {
 model Attachment {
   id        String   @id @default(uuid())
   name      String
-  url       String   @db.Text
+  url       String   @db.String()
   course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
   courseId  String
   createdAt DateTime @default(now())
@@ -51,8 +51,8 @@ model Attachment {
 model Chapter {
   id          String   @id @default(uuid())
   title       String
-  description String?  @db.Text
-  videoUrl    String?  @db.Text
+  description String?  @db.String()
+  videoUrl    String?  @db.String()
   position    Int
   isPublished Boolean  @default(false)
   isFree      Boolean  @default(false)
